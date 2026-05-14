@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, g, send_from_directory
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 DATABASE = os.path.join(os.path.dirname(__file__), 'data', 'calorie.db')
+os.makedirs(os.path.dirname(DATABASE), exist_ok=True)
 
 def get_db():
     if 'db' not in g:
@@ -128,7 +129,8 @@ def add_custom_food():
     return jsonify({'ok': True})
 
 if __name__ == '__main__':
-    os.makedirs(os.path.dirname(DATABASE), exist_ok=True)
     init_db()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+else:
+    init_db()
